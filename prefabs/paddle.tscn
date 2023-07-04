@@ -5,12 +5,11 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rnqmu"]
 size = Vector2(112, 394)
 
-[node name="paddle" type="Node"]
+[node name="paddle" type="AnimatableBody2D"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_07k6w")
 
-[node name="RigidBody2D" type="AnimatableBody2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("RectangleShape2D_rnqmu")
