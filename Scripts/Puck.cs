@@ -9,13 +9,22 @@ public partial class Puck : RigidBody2D
 	[Export(PropertyHint.Range, "0,180,0.5,radian")]
 	private float _spreadAngle = 0;
 
+	private Timer _timer;
+
+	public ShootDirection StartDirection { get; set; }
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		// randomly sellects to shoot to either player 1 or player 2
-		var direction = (ShootDirection)(GD.Randi() % 2);
+		_timer = this.GetNode<Timer>("Timer");
 
-		Shoot(direction);
+		// randomly sellects to shoot to either player 1 or player 2
+		StartDirection = (ShootDirection)(GD.Randi() % 2);
+
+		_timer.Timeout += () =>
+		{
+			Shoot(StartDirection);
+		};
 	}
 
 	/// <summary>
@@ -45,7 +54,7 @@ public partial class Puck : RigidBody2D
 		LinearVelocity = dir.Rotated(angleOffset) * _movementSpeed;
 	}
 
-	private enum ShootDirection
+	public enum ShootDirection
 	{
 		PlayerOne,
 		PlayerTwo
