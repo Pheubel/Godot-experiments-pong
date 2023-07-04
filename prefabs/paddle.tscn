@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://cbbisoa6dh5j7"]
 
+[ext_resource type="Script" path="res://Scripts/Paddle.cs" id="1_5nbed"]
 [ext_resource type="Texture2D" uid="uid://cj0asd05v5eye" path="res://Sprites/paddle.png" id="1_07k6w"]
-[ext_resource type="Script" path="res://Scripts/paddle.cs" id="1_815hl"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ldiqu"]
 friction = 0.0
@@ -11,10 +11,11 @@ bounce = 1.0
 size = Vector2(112, 394)
 
 [node name="paddle" type="AnimatableBody2D"]
+scale = Vector2(0.326, 1)
 physics_material_override = SubResource("PhysicsMaterial_ldiqu")
 sync_to_physics = false
-script = ExtResource("1_815hl")
-_movementSpeed = 200.0
+script = ExtResource("1_5nbed")
+_movementSpeed = 400.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_07k6w")

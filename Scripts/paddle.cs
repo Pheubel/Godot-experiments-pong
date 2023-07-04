@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class paddle : AnimatableBody2D
+public partial class Paddle : AnimatableBody2D
 {
 	[Export]
 	private SelectedActionListener _selectedActionListener;
