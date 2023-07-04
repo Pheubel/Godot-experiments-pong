@@ -125,7 +125,7 @@ autostart = true
 
 [node name="GoalSound" type="AudioStreamPlayer" parent="Puck"]
 stream = SubResource("AudioStreamRandomizer_hffgs")
-volume_db = -1.874
+volume_db = -2.0
 
 [node name="BounceSound" type="AudioStreamPlayer" parent="Puck"]
 stream = SubResource("AudioStreamRandomizer_5llh6")
