@@ -6,7 +6,7 @@ public partial class Puck : RigidBody2D
 	[Export]
 	private float _movementSpeed = 5;
 
-	[Export(PropertyHint.Range, "0,180,0.5,radian")]
+	[Export(PropertyHint.Range, "0,180,1,radians")]
 	private float _spreadAngle = 0;
 
 	private Timer _timer;
@@ -28,16 +28,9 @@ public partial class Puck : RigidBody2D
 	}
 
 	/// <summary>
-	/// Called every physics update
+	/// Shoots the puck into the direction of the given player.
 	/// </summary>
-	/// <param name="delta">The time between physics frames</param>
-	//public override void _PhysicsProcess(double delta)
-	//{
-	//}
-
-	/// <summary>
-	/// cool
-	/// </summary>
+	/// <param name="direction"> The player the puck should start moving to.</param>
 	private void Shoot(ShootDirection direction)
 	{
 		float halfRange = _spreadAngle * 0.5f;
@@ -52,6 +45,21 @@ public partial class Puck : RigidBody2D
 		var dir = directionTable[(int)direction];
 
 		LinearVelocity = dir.Rotated(angleOffset) * _movementSpeed;
+	}
+
+	public void OnGoalEntered(Node goal, long player)
+	{
+		// set the start direction to the scoring player
+		StartDirection = (ShootDirection)(~player & 1);
+
+		LinearVelocity = Vector2.Zero;
+
+		// There seems to be a bug where setting the position directly causes it to not overwrite the physics
+		var old = GlobalTransform;
+		old.Origin = Vector2.Zero;
+
+		GlobalTransform = old;
+		_timer.Start();
 	}
 
 	public enum ShootDirection

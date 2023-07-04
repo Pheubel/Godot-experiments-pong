@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://biofpstlscie3"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_t38cv"]
+normal = Vector2(1, 0)
+
+[node name="Goal" type="Area2D"]
+input_pickable = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("WorldBoundaryShape2D_t38cv")

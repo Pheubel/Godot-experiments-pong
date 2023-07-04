@@ -1,8 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://daf3lkx001jab"]
+[gd_scene load_steps=14 format=3 uid="uid://daf3lkx001jab"]
 
 [ext_resource type="PackedScene" uid="uid://cbbisoa6dh5j7" path="res://prefabs/paddle.tscn" id="1_ki0ot"]
 [ext_resource type="Material" uid="uid://bt5c6fd433hue" path="res://Materials/wall_mat.tres" id="2_upent"]
 [ext_resource type="Texture2D" uid="uid://cj0asd05v5eye" path="res://Sprites/paddle.png" id="3_ldg5n"]
+[ext_resource type="PackedScene" uid="uid://biofpstlscie3" path="res://prefabs/goal.tscn" id="4_2wuyx"]
 [ext_resource type="Script" path="res://Scripts/Puck.cs" id="4_rb0d4"]
 [ext_resource type="Shader" path="res://Shaders/recolor.gdshader" id="5_1eeun"]
 [ext_resource type="Texture2D" uid="uid://g0beahb5ax4k" path="res://Sprites/Puck.png" id="6_414xj"]
@@ -67,7 +68,15 @@ position = Vector2(0, 10)
 scale = Vector2(10.3036, 0.0507614)
 texture = ExtResource("3_ldg5n")
 
+[node name="Goal" parent="Map Bounds" instance=ExtResource("4_2wuyx")]
+position = Vector2(-635, 0)
+
+[node name="Goal2" parent="Map Bounds" instance=ExtResource("4_2wuyx")]
+position = Vector2(635, 0)
+rotation = 3.14159
+
 [node name="Puck" type="RigidBody2D" parent="."]
+position = Vector2(0, 1)
 mass = 0.01
 physics_material_override = SubResource("PhysicsMaterial_he11s")
 gravity_scale = 0.0
@@ -77,7 +86,7 @@ linear_damp_mode = 1
 angular_damp_mode = 1
 script = ExtResource("4_rb0d4")
 _movementSpeed = 500.0
-_spreadAngle = 30.0
+_spreadAngle = 1.5708
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Puck"]
 scale = Vector2(1.01, 1.01)
@@ -91,3 +100,6 @@ texture = ExtResource("6_414xj")
 [node name="Timer" type="Timer" parent="Puck"]
 one_shot = true
 autostart = true
+
+[connection signal="body_entered" from="Map Bounds/Goal" to="Puck" method="OnGoalEntered" binds= [0]]
+[connection signal="body_entered" from="Map Bounds/Goal2" to="Puck" method="OnGoalEntered" binds= [1]]

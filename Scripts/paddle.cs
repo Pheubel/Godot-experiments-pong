@@ -4,7 +4,7 @@ using System;
 public partial class Paddle : AnimatableBody2D
 {
 	[Export]
-	private SelectedActionListener _selectedActionListener;
+	private Player _selectedActionListener;
 
 	[Export]
 	private float _movementSpeed = 5;
@@ -19,8 +19,8 @@ public partial class Paddle : AnimatableBody2D
 
 		float direction = _selectedActionListener switch
 		{
-			SelectedActionListener.PlayerOne => Input.GetAxis(InputActionName.GameMoveUpP1, InputActionName.GameMoveDownP1),
-			SelectedActionListener.PlayerTwo => Input.GetAxis(InputActionName.GameMoveUpP2, InputActionName.GameMoveDownP2),
+			Player.PlayerOne => Input.GetAxis(InputActionName.GameMoveUpP1, InputActionName.GameMoveDownP1),
+			Player.PlayerTwo => Input.GetAxis(InputActionName.GameMoveUpP2, InputActionName.GameMoveDownP2),
 			_ => throw new NotImplementedException(),
 		};
 
@@ -37,12 +37,6 @@ public partial class Paddle : AnimatableBody2D
 			Position += velocity;
 		}
 	}
-}
-
-public enum SelectedActionListener
-{
-	PlayerOne,
-	PlayerTwo
 }
 
 public static class InputActionName
