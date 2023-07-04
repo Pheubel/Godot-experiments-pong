@@ -9,24 +9,13 @@ public partial class paddle : AnimatableBody2D
 	[Export]
 	private float _movementSpeed = 5;
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	//public override void _Process(double delta)
-	//{
-
-	//}
-
 	/// <summary>
 	/// Called every physics update
 	/// </summary>
 	/// <param name="delta">The time between physics frames</param>
 	public override void _PhysicsProcess(double delta)
 	{
-		//var currentPosition = Position;
+		var currentPosition = Position;
 
 		float direction = _selectedActionListener switch
 		{
@@ -37,7 +26,16 @@ public partial class paddle : AnimatableBody2D
 
 		Vector2 velocity = new Vector2(0, (float)(direction * _movementSpeed * delta));
 
-		MoveAndCollide(velocity);
+		var collission = new KinematicCollision2D();
+
+		if (TestMove(Transform, velocity, collission) && collission.GetCollider() is StaticBody2D otherBody)
+		{
+			// TODO: solve to get a tight fit with the walls
+		}
+		else
+		{
+			Position += velocity;
+		}
 	}
 }
 

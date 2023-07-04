@@ -1,11 +1,32 @@
-[gd_scene load_steps=5 format=3 uid="uid://daf3lkx001jab"]
+[gd_scene load_steps=13 format=3 uid="uid://daf3lkx001jab"]
 
 [ext_resource type="PackedScene" uid="uid://cbbisoa6dh5j7" path="res://prefabs/paddle.tscn" id="1_ki0ot"]
 [ext_resource type="Material" uid="uid://bt5c6fd433hue" path="res://Materials/wall_mat.tres" id="2_upent"]
 [ext_resource type="Texture2D" uid="uid://cj0asd05v5eye" path="res://Sprites/paddle.png" id="3_ldg5n"]
+[ext_resource type="Script" path="res://Scripts/Puck.cs" id="4_rb0d4"]
+[ext_resource type="Shader" path="res://Shaders/recolor.gdshader" id="5_1eeun"]
+[ext_resource type="Texture2D" uid="uid://g0beahb5ax4k" path="res://Sprites/Puck.png" id="6_414xj"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_gjbh7"]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_vxill"]
+normal = Vector2(0, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sxegt"]
 size = Vector2(1154, 20)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_he11s"]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ecpq5"]
+radius = 16.0312
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jiwnn"]
+shader = ExtResource("5_1eeun")
+shader_parameter/color = Color(1, 0.231373, 0.172549, 1)
 
 [node name="Pong Scene" type="Node2D"]
 
@@ -16,25 +37,24 @@ size = Vector2(1154, 20)
 [node name="paddle 1" parent="Players" instance=ExtResource("1_ki0ot")]
 position = Vector2(-500, -1)
 scale = Vector2(0.33, 0.33)
-_movementSpeed = 50.0
 
 [node name="paddle 2" parent="Players" instance=ExtResource("1_ki0ot")]
 position = Vector2(500, -1)
 scale = Vector2(0.33, 0.33)
 _selectedActionListener = 1
-_movementSpeed = 50.0
 
 [node name="Map Bounds" type="Node" parent="."]
 
 [node name="Walls" type="StaticBody2D" parent="Map Bounds"]
+physics_material_override = SubResource("PhysicsMaterial_gjbh7")
 
 [node name="Upper Wall" type="CollisionShape2D" parent="Map Bounds/Walls"]
 position = Vector2(0, -313)
-shape = SubResource("RectangleShape2D_sxegt")
+shape = SubResource("WorldBoundaryShape2D_vxill")
 
 [node name="Sprite2D" type="Sprite2D" parent="Map Bounds/Walls/Upper Wall"]
 material = ExtResource("2_upent")
-position = Vector2(0, -5.60284e-06)
+position = Vector2(0, -11)
 scale = Vector2(10.3036, 0.0507614)
 texture = ExtResource("3_ldg5n")
 
@@ -47,3 +67,22 @@ material = ExtResource("2_upent")
 position = Vector2(0, -5.60284e-06)
 scale = Vector2(10.3036, 0.0507614)
 texture = ExtResource("3_ldg5n")
+
+[node name="Puck" type="RigidBody2D" parent="."]
+mass = 0.01
+physics_material_override = SubResource("PhysicsMaterial_he11s")
+gravity_scale = 0.0
+lock_rotation = true
+linear_damp_mode = 1
+angular_damp_mode = 1
+script = ExtResource("4_rb0d4")
+_movementSpeed = 500.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Puck"]
+scale = Vector2(1.01, 1.01)
+shape = SubResource("CircleShape2D_ecpq5")
+
+[node name="Sprite2D" type="Sprite2D" parent="Puck"]
+material = SubResource("ShaderMaterial_jiwnn")
+scale = Vector2(0.162, 0.162)
+texture = ExtResource("6_414xj")
