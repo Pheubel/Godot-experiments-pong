@@ -15,14 +15,18 @@ public partial class paddle : AnimatableBody2D
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
+	//public override void _Process(double delta)
+	//{
 
-	}
+	//}
 
+	/// <summary>
+	/// Called every physics update
+	/// </summary>
+	/// <param name="delta">The time between physics frames</param>
 	public override void _PhysicsProcess(double delta)
 	{
-		var currentPosition = Position;
+		//var currentPosition = Position;
 
 		float direction = _selectedActionListener switch
 		{
@@ -32,12 +36,6 @@ public partial class paddle : AnimatableBody2D
 		};
 
 		Vector2 velocity = new Vector2(0, (float)(direction * _movementSpeed * delta));
-
-		//MoveLocalY((float)(direction * _movementSpeed * delta));
-
-		//Position = currentPosition;
-
-		GD.Print($"position: {currentPosition.Y}\tdirection: {direction}");
 
 		MoveAndCollide(velocity);
 	}
