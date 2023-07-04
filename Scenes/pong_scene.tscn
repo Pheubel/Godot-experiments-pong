@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://daf3lkx001jab"]
+
+[ext_resource type="PackedScene" uid="uid://cbbisoa6dh5j7" path="res://prefabs/paddle.tscn" id="1_ki0ot"]
+
+[node name="Pong Scene" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="paddle" parent="." instance=ExtResource("1_ki0ot")]
