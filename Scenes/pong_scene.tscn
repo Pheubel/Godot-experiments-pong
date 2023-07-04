@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://daf3lkx001jab"]
+[gd_scene load_steps=20 format=3 uid="uid://daf3lkx001jab"]
 
 [ext_resource type="PackedScene" uid="uid://cbbisoa6dh5j7" path="res://prefabs/paddle.tscn" id="1_ki0ot"]
 [ext_resource type="Material" uid="uid://bt5c6fd433hue" path="res://Materials/wall_mat.tres" id="2_upent"]
@@ -7,7 +7,10 @@
 [ext_resource type="Script" path="res://Scripts/Puck.cs" id="4_rb0d4"]
 [ext_resource type="Shader" path="res://Shaders/recolor.gdshader" id="5_1eeun"]
 [ext_resource type="Texture2D" uid="uid://g0beahb5ax4k" path="res://Sprites/Puck.png" id="6_414xj"]
+[ext_resource type="AudioStream" uid="uid://wf8sm6tfa05k" path="res://SFX/critical-hit-sounds-effect.mp3" id="8_mquqp"]
 [ext_resource type="Script" path="res://Scripts/Scoreboard.cs" id="8_upn1q"]
+[ext_resource type="AudioStream" uid="uid://vq66f6xfsh70" path="res://SFX/minecraft_hit_soundmp3converter.mp3" id="9_ckli0"]
+[ext_resource type="AudioStream" uid="uid://d3rry0nrivnr" path="res://Happiness.mp3" id="11_vrme3"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_gjbh7"]
 friction = 0.0
@@ -28,6 +31,22 @@ radius = 16.0312
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jiwnn"]
 shader = ExtResource("5_1eeun")
 shader_parameter/color = Color(1, 0.231373, 0.172549, 1)
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_hffgs"]
+streams_count = 1
+playback_mode = 2
+random_pitch = 1.2
+random_volume_offset_db = 0.0
+stream_0/stream = ExtResource("8_mquqp")
+stream_0/weight = 1.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_5llh6"]
+streams_count = 1
+playback_mode = 1
+random_pitch = 1.3
+random_volume_offset_db = 0.0
+stream_0/stream = ExtResource("9_ckli0")
+stream_0/weight = 1.0
 
 [node name="Pong Scene" type="Node2D"]
 
@@ -82,6 +101,8 @@ mass = 0.01
 physics_material_override = SubResource("PhysicsMaterial_he11s")
 gravity_scale = 0.0
 continuous_cd = 2
+max_contacts_reported = 1
+contact_monitor = true
 lock_rotation = true
 linear_damp_mode = 1
 angular_damp_mode = 1
@@ -101,6 +122,15 @@ texture = ExtResource("6_414xj")
 [node name="Timer" type="Timer" parent="Puck"]
 one_shot = true
 autostart = true
+
+[node name="GoalSound" type="AudioStreamPlayer" parent="Puck"]
+stream = SubResource("AudioStreamRandomizer_hffgs")
+volume_db = -1.874
+
+[node name="BounceSound" type="AudioStreamPlayer" parent="Puck"]
+stream = SubResource("AudioStreamRandomizer_5llh6")
+volume_db = -7.893
+pitch_scale = 1.9
 
 [node name="Scoreboard" type="Control" parent="." node_paths=PackedStringArray("_playerOneScoreLabel", "_playerTwoScoreLabel")]
 layout_mode = 3
@@ -139,6 +169,10 @@ offset_right = 64.0
 offset_bottom = 76.0
 theme_override_font_sizes/font_size = 50
 text = "0"
+
+[node name="BGM" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_vrme3")
+autoplay = true
 
 [connection signal="body_entered" from="Map Bounds/Goal" to="Puck" method="OnGoalEntered" binds= [0]]
 [connection signal="body_entered" from="Map Bounds/Goal" to="Scoreboard" method="OnGoalEntered" binds= [0]]

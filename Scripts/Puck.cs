@@ -9,6 +9,10 @@ public partial class Puck : RigidBody2D
 	[Export(PropertyHint.Range, "0,180,1,radians")]
 	private float _spreadAngle = 0;
 
+
+	private AudioStreamPlayer _goalAudioPlayer;
+	private AudioStreamPlayer _bounceAudioPlayer;
+
 	private Timer _timer;
 
 	public ShootDirection StartDirection { get; set; }
@@ -17,6 +21,8 @@ public partial class Puck : RigidBody2D
 	public override void _Ready()
 	{
 		_timer = this.GetNode<Timer>("Timer");
+		_goalAudioPlayer = this.GetNode<AudioStreamPlayer>("GoalSound");
+		_bounceAudioPlayer = this.GetNode<AudioStreamPlayer>("BounceSound");
 
 		// randomly sellects to shoot to either player 1 or player 2
 		StartDirection = (ShootDirection)(GD.Randi() % 2);
@@ -25,6 +31,17 @@ public partial class Puck : RigidBody2D
 		{
 			Shoot(StartDirection);
 		};
+	}
+
+	public override void _PhysicsProcess(double delta)
+	{
+		foreach (var colBody in this.GetCollidingBodies())
+		{
+			if (colBody is not Area2D)
+			{
+				_bounceAudioPlayer.Play();
+			}
+		}
 	}
 
 	/// <summary>
@@ -49,6 +66,8 @@ public partial class Puck : RigidBody2D
 
 	public void OnGoalEntered(Node goal, long player)
 	{
+		_goalAudioPlayer.Play();
+
 		// set the start direction to the scoring player
 		StartDirection = (ShootDirection)(~player & 1);
 
