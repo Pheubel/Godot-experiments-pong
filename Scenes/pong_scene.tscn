@@ -14,8 +14,7 @@ bounce = 1.0
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_vxill"]
 normal = Vector2(0, 1)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_sxegt"]
-size = Vector2(1154, 20)
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_blvbn"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_he11s"]
 friction = 0.0
@@ -59,12 +58,12 @@ scale = Vector2(10.3036, 0.0507614)
 texture = ExtResource("3_ldg5n")
 
 [node name="Lower Wall" type="CollisionShape2D" parent="Map Bounds/Walls"]
-position = Vector2(0, 313)
-shape = SubResource("RectangleShape2D_sxegt")
+position = Vector2(0, 305)
+shape = SubResource("WorldBoundaryShape2D_blvbn")
 
 [node name="Sprite2D" type="Sprite2D" parent="Map Bounds/Walls/Lower Wall"]
 material = ExtResource("2_upent")
-position = Vector2(0, -5.60284e-06)
+position = Vector2(0, 10)
 scale = Vector2(10.3036, 0.0507614)
 texture = ExtResource("3_ldg5n")
 
