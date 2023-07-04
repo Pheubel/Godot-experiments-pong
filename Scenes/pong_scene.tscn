@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://daf3lkx001jab"]
+[gd_scene load_steps=15 format=3 uid="uid://daf3lkx001jab"]
 
 [ext_resource type="PackedScene" uid="uid://cbbisoa6dh5j7" path="res://prefabs/paddle.tscn" id="1_ki0ot"]
 [ext_resource type="Material" uid="uid://bt5c6fd433hue" path="res://Materials/wall_mat.tres" id="2_upent"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://Scripts/Puck.cs" id="4_rb0d4"]
 [ext_resource type="Shader" path="res://Shaders/recolor.gdshader" id="5_1eeun"]
 [ext_resource type="Texture2D" uid="uid://g0beahb5ax4k" path="res://Sprites/Puck.png" id="6_414xj"]
+[ext_resource type="Script" path="res://Scripts/Scoreboard.cs" id="8_upn1q"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_gjbh7"]
 friction = 0.0
@@ -101,5 +102,45 @@ texture = ExtResource("6_414xj")
 one_shot = true
 autostart = true
 
+[node name="Scoreboard" type="Control" parent="." node_paths=PackedStringArray("_playerOneScoreLabel", "_playerTwoScoreLabel")]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -8.0
+offset_top = -296.0
+offset_right = 32.0
+offset_bottom = -256.0
+script = ExtResource("8_upn1q")
+_playerOneScoreLabel = NodePath("Player 1 score")
+_playerTwoScoreLabel = NodePath("Player 2 score")
+
+[node name="Player 1 score" type="Label" parent="Scoreboard"]
+layout_mode = 2
+offset_left = -206.0
+offset_top = 4.0
+offset_right = -5.99998
+offset_bottom = 76.0
+theme_override_font_sizes/font_size = 50
+text = "0"
+horizontal_alignment = 2
+
+[node name="-" type="Label" parent="Scoreboard"]
+layout_mode = 0
+offset_right = 6.0
+offset_bottom = 26.0
+theme_override_font_sizes/font_size = 50
+text = "-"
+horizontal_alignment = 1
+
+[node name="Player 2 score" type="Label" parent="Scoreboard"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 4.0
+offset_right = 64.0
+offset_bottom = 76.0
+theme_override_font_sizes/font_size = 50
+text = "0"
+
 [connection signal="body_entered" from="Map Bounds/Goal" to="Puck" method="OnGoalEntered" binds= [0]]
+[connection signal="body_entered" from="Map Bounds/Goal" to="Scoreboard" method="OnGoalEntered" binds= [0]]
 [connection signal="body_entered" from="Map Bounds/Goal2" to="Puck" method="OnGoalEntered" binds= [1]]
+[connection signal="body_entered" from="Map Bounds/Goal2" to="Scoreboard" method="OnGoalEntered" binds= [1]]
